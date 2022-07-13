@@ -41,6 +41,7 @@ const update = async(payload) => {
         const response = await Address.update(payload).then((result) => {
             return result
         })
+        return response
     } catch(error) {
         console.log(error)
     }

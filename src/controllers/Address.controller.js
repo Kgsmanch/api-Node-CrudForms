@@ -34,14 +34,16 @@ const create = async (request) => {
     }
 }
 
-const update = async(payload) => {
+const update = async(request, result) => {
     try {
-        const response = await Address.update(payload).then((result) => {
+        const response = await Service.update(request).then((result) => {
             return result
         })
+        return response
     } catch(error) {
         console.log(error)
     }
+    result.send(response)
 }
 
 const destroy = async (request, result) => {

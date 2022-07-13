@@ -7,7 +7,7 @@ app.get('/addresses', async (request, result) => {
     })
     result.send(response)
 })
-app.get('/addresses/getOne', async (request, result) => {
+app.get('/addresses/:id', async (request, result) => {
     response = await Controller.getOne(request).then((response) => {
         return response
     })
@@ -27,6 +27,13 @@ app.delete('/addresses', async (request, result) => {
         return response
     })
     result.send('Arquivo deletado')
+})
+
+app.put('/addresses/:id', async (request, result) => {
+    response = await Controller.update(request).then((response) => {
+        return response
+    })
+    result.send(response)
 })
 
 
@@ -56,3 +63,19 @@ app.delete('/addresses', async (request, result) => {
 //     }})
 //     result.send('deletado com sucesso')
 // });
+
+
+// app.put('/addresses/update', async (request, result) => {
+// const data = request.body
+// try{
+//     const response = await Address.update({street_name:"mudando o teste"},{where:{id:19}})
+//     .then((result) => {
+//             return result
+//         })
+//         return response
+//     }catch(error) {
+//         console.log(error)
+//     }
+//     result.send('teste')
+// })
+
