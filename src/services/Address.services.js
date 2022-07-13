@@ -46,12 +46,13 @@ const update = async(payload) => {
     }
 }
 
-const destroy = async(payload) => {
+const destroy = async (request, result) => {
     try {
-        const result = await Address.destroy(payload).then((result) => {
+        const response = await Address.destroy(request).then((result) => {
             return result
         })
-    } catch(error) {
+        return response
+    }catch(error) {
         console.log(error)
     }
 }

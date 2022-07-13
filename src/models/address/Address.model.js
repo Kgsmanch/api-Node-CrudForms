@@ -53,11 +53,13 @@ const update = async(payload) => {
 }
 
 //Delete
-const destroy = async(payload) => {
+const destroy = async(request) => {
+    const data = request.body
     try{
-        const response = await Address.destroy(payload).then((result) => {
+        const response = await Address.destroy({where:{id:data.id}}).then((result) => {
             return result
         })
+        return response
     }catch(error) {
         console.log(error)
     }

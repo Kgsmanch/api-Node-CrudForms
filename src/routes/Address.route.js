@@ -22,6 +22,13 @@ app.post('/addresses', async (request, result) => {
     result.send(response);
 })
 
+app.delete('/addresses', async (request, result) => {
+    response = await Controller.destroy(request).then((response)=> {
+        return response
+    })
+    result.send('Arquivo deletado')
+})
+
 
 
 //TESTE DIRETO OK
@@ -42,3 +49,10 @@ app.post('/addresses', async (request, result) => {
 //         result.json(answers);
 //      })
 // })
+
+// app.delete('/addresses/delete', async (request,result) => {
+//     await Address.destroy({where: {
+//         id:"5"
+//     }})
+//     result.send('deletado com sucesso')
+// });
