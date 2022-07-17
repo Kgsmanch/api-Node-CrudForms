@@ -1,9 +1,30 @@
-// const express = require('express');
-// const router = express.Router();
+const Services = require('../services/User.services')
 
-// router
-// .get("/", (request, result) => {
-//     result.send('Get User.controller')
-// });
+const create = async (request) =>{ 
+    const response = await request.body
+    .then((result)=> {
+        return result
+    })
+    result.send(response)
+    }
+    
 
-// module.exports=router;
+module.exports={
+    create
+}
+
+
+
+// const create = async (request) => {
+//     try {
+//         // const validate = Service.validate()
+//         const response = await Service.create(request.body).then((result) => {
+//             return result
+//         })
+
+//         return response
+//     } catch (error) {
+//         console.log(error)
+//         return false
+//     }
+// }

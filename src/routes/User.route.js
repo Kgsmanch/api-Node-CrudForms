@@ -1,16 +1,22 @@
-// const app = require('../config/server'); 
-// const Controller = require('../controllers/Users.controller')
+const app = require('../config/server'); 
+const Controller = require('../controllers/User.controller')
 
-// app.get('/users', (request, result) => {
-//     console.log(request.query)
-//     const response = Controller.getAll()
-//     result.send(response)
-// })
+app.post('/users', async (request, result) => {
+    const response = await Controller.create(request).then((response) => {
+        return response
+    })
+    if (!response) {
+        console.log('No result from controller')
+    } else {
+        result.send(response)
+    }
+})
 
-// app.post('/users', async (request, result) => {
+
+// app.post('/addresses', async (request, result) => {
 //     response = await Controller.create(request).then((response) => {
 //         return response
 //     })
-
+    
 //     result.send(response);
 // })

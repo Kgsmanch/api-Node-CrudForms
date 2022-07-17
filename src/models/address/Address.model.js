@@ -3,7 +3,11 @@ const Address = require('../../models/address/Address.schema')
 
 const getAll = async(payload) => {
     try {
-        const response = await Address.findAll(payload).then((result)=> {
+        const response = await Address.findAll({
+            order:[['id','DESC']],
+            limit:5,
+            attributes: ['zip_code', 'street_name', 'complement', 'neighborhood', 'city', 'state']
+        }).then((result)=> {
         return result
         })
         return response
@@ -17,13 +21,7 @@ const getOne = async (request, result) => {
     try {
         const { id } = request.params;
         const findOne = await Address.findByPk(id);
-        if (!findOne) {
-            result.status(200).send({
-                status:'error',
-                message:`${id}, não encontrado`
-            });
-        }
-        // result.send(findOne);
+        
         return findOne
     } catch(error) {
         console.log(error)
@@ -36,10 +34,7 @@ const create = async(payload) => {
         const response = await Address.create(payload).then((result) => {
             return result
         })
-        const responseValues = {
-            "zip_code": response.zip_code
-        }
-        return responseValues
+        return response
     } catch(error) {
         console.log(error)
         return false
@@ -76,9 +71,9 @@ try{
 
 //Delete
 const destroy = async(request) => {
-    const data = request.body
+    const data = request.params.id
     try{
-        const response = await Address.destroy({where:{id:data.id}}).then((result) => {
+        const response = await Address.destroy({where:{id:data}}).then((result) => {
             return result
         })
         return response

@@ -27,6 +27,12 @@ const Address = database.define('address', {
         type:Sequelize.STRING,
         allowNull:true,
     },
+},
+{
+    timestamps: true,
+    paranoid: true,
+    deletedAt: 'deleted_at'
 })
+
 // Address.sync({force:true});
-module.exports=Address;
+module.exports=Address

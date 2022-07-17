@@ -27,10 +27,6 @@ const User = database.define('user', {
     },
 });
 // User.sync({force:true});
-User.sync({force:true});
-function teste () {
-    console.log('testando algo dentro do User Schema');
-}
+
 
 module.exports=User;
-module.exports=teste;

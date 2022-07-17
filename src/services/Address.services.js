@@ -2,9 +2,7 @@ const Address = require('../models/address/Address.model')
 
 const getAll = async(payload) => {
     try {
-        const response = await Address.getAll(
-            {order:[['id','DESC']],limit:30}
-            )
+        const response = await Address.getAll()
             .then((result) => {
             return result
         })
@@ -13,6 +11,8 @@ const getAll = async(payload) => {
         console.log(error)
     }
 }
+//tratar a resposta => excluir dados inválidos
+
 const getOne = async (payload) => {
     try{
         const response = await Address.getOne(payload).then((result) => {
@@ -24,13 +24,31 @@ const getOne = async (payload) => {
     }
 }
 
+// const formatResponse = (response) => {
+//     let formatedData = {}
+//     if (response !== null) {
+//         formatedData = {
+//           data: response.dataValues,
+//           code: 201,
+//           error: null
+//         }
+//       } else {
+//         formatedData = {
+//           data: null,
+//           code: 422,
+//           error: 'Meu ovo'
+//         }
+//       }
+    
+//       return formatedData   
+// }
+
 const create = async (payload) => {
     try {
-        const created = await Address.create(payload).then((response) => {
+        const response = await Address.create(payload).then((response) => {
             return response
         });
-
-        return created
+        return response
     } catch (error) {
         console.log(error)
     }
@@ -57,6 +75,7 @@ const destroy = async (request, result) => {
         console.log(error)
     }
 }
+
 
 module.exports = {
     getAll,
