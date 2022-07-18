@@ -1,59 +1,50 @@
 const Service = require('../services/Address.services');
-const Helper = require('../helpers/helper.controller')
+const Helper = require('../helpers/address/helper.address.controller');
+const Address = require('../models/address/Address.schema');
 
-const getAll = async(payload) => {
-    try {
-        const response = await Service.getAll()
+const getAll = async(request, result) => {
+    const response = await Service.getAll(request).then((response) => {
         return response
-    } catch (error) {
-        console.log(error)
-    }
+    })
+    response !== null ? 
+    result.status(200).send(response): 
+    result.status(204).send(response)
 }
 
-const getOne = async (payload) => {
-    try {
-        let response = await Service.getOne(payload).then((result) => {
-            return result
-        })
+const getOne = async (request, result) => {
+    const response = await Service.getOne(request).then((response) => {
         return response
-    }catch (error) {
-        console.log(error)
-    } 
-}
-
-const create = async (request, result) => {
-    try {
-        const response = Service.create(request.body).then((result) => {
-            return result
-        })
-        return response
-    } catch (error) {
-        console.log(error)
-        return false
-    }
-}
-
-const update = async(request, result) => {
-    try {
-        const response = await Service.update(request).then((result) => {
-            return result
-        })
-        return response
-    } catch(error) {
-        console.log(error)
-    }
-    result.send(response)
+    })
+    response !== null ? 
+    result.status(200).send(response): 
+    result.status(204).send('Not found, please check for another id')
 }
 
 const destroy = async (request, result) => {
-    try {
-        const response = await Service.destroy(request).then((result) => {
-            return result
-        })
+    const response = await Service.destroy(request).then((response) => {      
+        return response 
+    })
+    response !== null ? 
+    result.sendStatus(200): 
+    result.status(204).send('Not found, please check for another id')
+}
+
+const create = async (request, result) => {
+    const response = await Service.create(request.body).then((result) => {
+        return result
+    })
+    response !== null ? 
+    result.status(201).send('Created, Ok'): 
+    result.status(204).send(response)
+}
+
+const update = async(request, result) => {
+    const response = await Service.update(request).then((response) => {
         return response
-    }catch(error) {
-        console.log(error)
-    }
+    })
+    response !== null ? 
+    result.sendStatus(200): 
+    result.status(204).send('Not found, please check for another id')
 }
 
 // ENTRY VALIDATIONS
@@ -93,16 +84,24 @@ const validateEntry = async (request, result, next) => {
     }
 }
 
-
-
-const teste = async (request, result, next) => {
-    let numero = request.params.num
-    if(numero=== '1'){
-        result.status(201).send('OK é um')
-    }else{
-        next()
-    }
+const validateId = async (request, result, next) => {
+    const id = await request.params.id
+    let validateId = await Helper.validateId(id)
+    validateId === true ? isUnique(id): result.status(404).send('Invalid Id')
+    
+    async function isUnique(payload) {
+        await Address.count({where:{id:id}})
+        .then(count =>{
+            if (count != 0) {
+                return next()
+            } else {
+                result.status(404).send('Id not found')
+            }
+        })
+    } 
 }
+
+
 module.exports = {
     getAll,
     getOne,
@@ -110,5 +109,5 @@ module.exports = {
     update,
     destroy,
     validateEntry,
-    teste
+    validateId
 }

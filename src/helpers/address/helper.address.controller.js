@@ -17,6 +17,15 @@ function validateZipCode(payload) {
   }
 }
 
+function validateId(payload) {
+  let regex = /^[0-9]+$/;
+  if(regex.test(payload) === true) {
+    return true
+  } else {
+    return payload
+  }
+}
+
 function validateStreetName(payload) {
   const invalidStreetName = 'Error. Invalid Street Name'
   if(typeof(payload)==='string' && payload.length >= 4 ) {
@@ -69,5 +78,6 @@ module.exports={
   validateComplement,
   validateNeighborhood,
   validateCity,
-  validateState
+  validateState,
+  validateId
 }

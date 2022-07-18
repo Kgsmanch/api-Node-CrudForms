@@ -2,58 +2,36 @@ const app = require('../config/server');
 const Controller = require('../controllers/Address.controller')
 
 app.get('/addresses', async (request, result) => {
-    const response = await Controller.getAll(request).then((response) => {
-        return response
-    })
-    if (!response) {
-        return result.sendStatus(204)
-    } else {
-        result.status(200).send(response)
-    }
+    const response = await Controller.getAll(request, result).then((result) => {
+    return result
+    }) 
+    return response
 })
 
-app.get('/addresses/:id', async (request, result) => {
-    const response = await Controller.getOne(request).then((response) => {
-        return response
+app.get('/addresses/:id', Controller.validateId, async (request, result) => {
+    const response = await Controller.getOne(request, result).then((result) => {
+        return result
     })
-    if (response === null) {
-        return result.sendStatus(204);
-    }
-    result.status(200).send(response)
+    return response
+})   
+
+app.delete('/addresses/:id', Controller.validateId, async (request, result) => {
+    const response = await Controller.destroy(request, result).then((result)=> {
+        return result
+    })
+    return response
 })
 
-app.post('/addresses', Controller.validateEntry,  async (request, result) => {
-    const response = await Controller.create(request).then((response) => {
-        return response
+app.post('/addresses', Controller.validateEntry, async (request, result) => {
+    const response = await Controller.create(request, result).then((result) => {
+        return result
     })
-    if (!response) {
-        result.sendStatus()
-    } else {
-        result.sendStatus(202)
-    }
+    return response
 })
 
-app.delete('/addresses/:id', async (request, result) => {
-    const response = await Controller.destroy(request).then((response)=> {
-        return response
+app.put('/addresses/:id', Controller.validateEntry ,Controller.validateId, async (request, result) => {
+    const response = await Controller.update(request, result).then((result) => {
+        return result
     })
-    if (!response) {
-        result.sendStatus(204)
-    } else {
-        result.sendStatus(202)
-    }
-})
-
-app.put('/addresses/:id', async (request, result) => {
-    const response = await Controller.update(request).then((response) => {
-        return response
-    })
-    result.status(201).send(response) 
-})
-
-
-
-
-app.post('/teste', Controller.validateEntry, async (request, result) => {
-    result.send('Ok passou pelo controller => next')
+    return response
 })

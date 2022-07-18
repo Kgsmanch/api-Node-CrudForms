@@ -1,87 +1,57 @@
 const express = require('express');
 const Address = require('../../models/address/Address.schema')
 
-const getAll = async(payload) => {
-    try {
-        const response = await Address.findAll({
-            order:[['id','DESC']],
-            limit:5,
-            attributes: ['zip_code', 'street_name', 'complement', 'neighborhood', 'city', 'state']
-        }).then((result)=> {
-        return result
-        })
-        return response
-    }catch(error) {
-        console.log(error)
-    }
-}
 
-//GetOne
-const getOne = async (request, result) => {
-    try {
-        const { id } = request.params;
-        const findOne = await Address.findByPk(id);
+const getAll = async(request, result) => {
+    const response = await Address.findAll({
+        order:[['id','DESC']],
+        limit:30,
+        attributes: ['zip_code', 'street_name', 'complement', 'neighborhood', 'city', 'state']
+    })
+    return response
+}
         
-        return findOne
-    } catch(error) {
-        console.log(error)
-    }
-}  
-// Create
-const create = async(payload) => {
-
-    try {
-        const response = await Address.create(payload).then((result) => {
-            return result
-        })
-        return response
-    } catch(error) {
-        console.log(error)
-        return false
-    } 
+const getOne = async (request, result) => {
+    const { id } = request.params;
+    const response = await Address.findOne({
+        where: {id:id},
+        attributes: ['zip_code', 'street_name', 'complement', 'neighborhood', 'city', 'state']
+    });
+    return response
 }
 
-// Update
-const update = async(request, result) => {
-try{
+const destroy = async (request) => {
+    const data = request.params.id
+    const response = await Address.destroy({where:{id:data}}).then((result) => {
+        return result
+    })
+    return response
+}
+
+const create = async (request, result) => {
+    const response = await Address.create(request).then((result) => {
+        return result
+    })
+    return 
+}   
+
+const update = async (request, result) => {
     const{ id } = request.params;
     const { zip_code, street_name, complement, neighborhood, city, state } = request.body;
-    const findById = await Address.findOne({
-        where: {
-            id
-        }
-    });
-    if (!findById) result.send('Dados incorretos');
-    if (zip_code) findById.zip_code = zip_code
-    if (street_name) findById.street_name = street_name
-    if (complement) findById.complement = complement
-    if (neighborhood) findById.neighborhood = neighborhood
-    if (city) findById.city = city
-    if (state) findById.state = state
-    const updateAdress = await findById.save();
-    if (!updateAdress) {
-        result.send( `os dados com id ${id} falharam`);
-    }
-    return updateAdress
-     
-    }catch(error){
-        console.log(error)
-    }
+    const response = await Address.update({
+        zip_code: zip_code,
+        street_name: street_name,
+        complement: complement,
+        neighborhood: neighborhood,
+        city: city,
+        state: state
+    },{
+        where: {id:id}
+    }).then((result) => {
+        return result
+    })
+    return response
 }
-
-//Delete
-const destroy = async(request) => {
-    const data = request.params.id
-    try{
-        const response = await Address.destroy({where:{id:data}}).then((result) => {
-            return result
-        })
-        return response
-    }catch(error) {
-        console.log(error)
-    }
-}
-
 
 module.exports={
     getAll,
