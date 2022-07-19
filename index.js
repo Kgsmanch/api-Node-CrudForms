@@ -7,5 +7,7 @@ app.use(bodyParser.json());
 
 //Routes
 require('./src/routes/Address.route')
-// require('./src/routes/User.route')
+require('./src/routes/User.route')
 
+// const User = require('./src/models/user/User.schema')
+// User.sync({force:true});

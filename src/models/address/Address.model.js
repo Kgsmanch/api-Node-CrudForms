@@ -1,7 +1,6 @@
 const express = require('express');
 const Address = require('../../models/address/Address.schema')
 
-
 const getAll = async(request, result) => {
     const response = await Address.findAll({
         order:[['id','DESC']],
@@ -9,6 +8,7 @@ const getAll = async(request, result) => {
         attributes: ['zip_code', 'street_name', 'complement', 'neighborhood', 'city', 'state']
     })
     return response
+    // incluir updated at e created at (envia tudo oculta somente o uuid fazer depois)
 }
         
 const getOne = async (request, result) => {
@@ -51,6 +51,7 @@ const update = async (request, result) => {
         return result
     })
     return response
+    // validar apenas um campo caso necessario (sistema antigo) verificar ? opcional para cada campo
 }
 
 module.exports={

@@ -3,6 +3,11 @@ const database = require('../../config/database.config');
 
 // Database Schema User
 const User = database.define('user', {
+    user_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     firstName: {
         type:Sequelize.STRING,
         allowNull:false,
@@ -18,6 +23,10 @@ const User = database.define('user', {
             len:[3, 15],
         }
     },
+    birth_date: {
+        type:Sequelize.DATE,
+        allowNull:true
+    },
     email: {
         type:Sequelize.STRING,
         allowNull:true,
@@ -25,8 +34,13 @@ const User = database.define('user', {
             isEmail:true,
         },
     },
+    nationality: {
+        type:Sequelize.STRING,
+        allowNull: true,
+        defaultValue: "Brasileiro'a'"
+    },
 });
+
 // User.sync({force:true});
 
-
-module.exports=User;
+module.exports = User;

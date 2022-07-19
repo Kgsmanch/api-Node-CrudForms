@@ -1,22 +1,24 @@
-const app = require('../config/server'); 
-const Controller = require('../controllers/User.controller')
+const app = require('../config/server')
 
-app.post('/users', async (request, result) => {
-    const response = await Controller.create(request).then((response) => {
-        return response
-    })
-    if (!response) {
-        console.log('No result from controller')
-    } else {
-        result.send(response)
-    }
+app.get('/users', (request, result) => {
+    result.send('teste em get user')
 })
 
+app.get('/users/:id', (request, result) => {
+    const data = request.params.id
+    result.status(200).json(data)
+})
 
-// app.post('/addresses', async (request, result) => {
-//     response = await Controller.create(request).then((response) => {
-//         return response
-//     })
-    
-//     result.send(response);
-// })
+app.delete('/users/:id', (request, result) => {
+    const data = request.params.id
+    result.status(200).json(data)
+})
+
+app.post('/users', (request, result) => {
+    result.send(request.body)
+})
+
+app.put('/users/:id', (request, result) => {
+    const data = request.params.id
+    result.status(200).send(data)
+})
