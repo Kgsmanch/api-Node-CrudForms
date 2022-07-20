@@ -29,7 +29,7 @@ app.post('/addresses', Controller.validateEntry, async (request, result) => {
     return response
 })
 
-app.put('/addresses/:id', Controller.validateEntry ,Controller.validateId, async (request, result) => {
+app.put('/addresses/:id',Controller.validateId, async (request, result) => {
     const response = await Controller.update(request, result).then((result) => {
         return result
     })

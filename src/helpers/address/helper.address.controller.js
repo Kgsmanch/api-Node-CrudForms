@@ -1,12 +1,3 @@
-
-function formatResponse(result, response) {
-if (response.error === null) {
-    return result.status(response.code).send(response.error)
-  } else {
-    return result.status(response.code).send(response)
-  }
-}
-
 function validateZipCode(payload) {
   const invalidZipCode = 'Error. Invalid Zip Code'
   let regex = /^[0-9]{8}$/;
@@ -72,7 +63,6 @@ function validateState(payload) {
 }
 
 module.exports={
-  formatResponse,
   validateZipCode,
   validateStreetName,
   validateComplement,

@@ -1,8 +1,17 @@
-const Sequelize = require('sequelize');
+const {Sequelize, DataTypes} = require('sequelize');
 const database = require('../../config/database.config');
 
-
 const Address = database.define('address', {
+    id: {
+        type:DataTypes.INTEGER,
+        primaryKey:true,
+        allowNull:false,
+        autoIncrement:true,
+    },
+    UUIDV4: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+    },
     zip_code: {
         type:Sequelize.STRING,
         allowNull:true,
@@ -31,8 +40,7 @@ const Address = database.define('address', {
 {
     timestamps: true,
     paranoid: true,
-    deletedAt: 'deleted_at'
 })
 
-// Address.sync({force:true});
+// Address.sync({Alter:true});
 module.exports=Address

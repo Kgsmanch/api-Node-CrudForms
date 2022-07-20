@@ -22,3 +22,4 @@ app.put('/users/:id', (request, result) => {
     const data = request.params.id
     result.status(200).send(data)
 })
+
